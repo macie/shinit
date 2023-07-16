@@ -1,0 +1,18 @@
+# Whitelist for sh
+
+# Ignore everything
+*
+
+# But not these files...
+!/.gitignore
+
+!shinit
+!*.sh
+
+!README.md
+!LICENSE
+
+!Makefile
+
+# ...even if they are in subdirectories
+!*/
