@@ -1,0 +1,166 @@
+#!/bin/sh
+#
+# shinit - initialize Bourne shell project.
+# MIT license <https://github.com/macie/shinit>
+
+SHINIT_VERSION="2023.07.17"
+
+# DEFAULTS
+SHINIT_AUTHOR_DEFAULT="$(git config user.name)"
+SHINIT_LICENSE_DEFAULT="MIT"
+SHINIT_NAME_DEFAULT="sh-$(hexdump -v -n4 -e'"%02x"' /dev/random)"
+SHINIT_DIR="."
+
+# Obtain project parameters from user.
+shinit_prompt() {
+	printf 'Choose:\n'
+
+	printf ' - repo root path [%s]: ' "${SHINIT_NAME_DEFAULT}"
+	read -r SHINIT_REPO_PATH
+	if [ -z "${SHINIT_REPO_PATH}" ]; then
+		SHINIT_NAME="${SHINIT_NAME_DEFAULT}"
+	else
+		SHINIT_NAME="${SHINIT_REPO_PATH##*/}"
+	fi
+
+	printf ' - author [%s]: ' "${SHINIT_AUTHOR_DEFAULT}"
+	read -r SHINIT_AUTHOR
+	if [ -z "${SHINIT_AUTHOR}" ]; then
+		SHINIT_AUTHOR="${SHINIT_AUTHOR_DEFAULT}"
+	fi
+
+	printf ' - license [%s]: ' "${SHINIT_LICENSE_DEFAULT}"
+	read -r SHINIT_LICENSE
+	if [ -z "${SHINIT_LICENSE}" ]; then
+		SHINIT_LICENSE="${SHINIT_LICENSE_DEFAULT}"
+	fi
+}
+
+# Generate project files.
+shinit_generate() {
+	printf '\nCreating:\n'
+
+	printf ' - project directory: %s\n' "${SHINIT_DIR}/${SHINIT_NAME}"
+	mkdir "${SHINIT_DIR}/${SHINIT_NAME}"
+	cd "${SHINIT_DIR}/${SHINIT_NAME}" || exit 1
+
+	shinit_git
+	shinit_markdown
+	shinit_sh
+}
+
+# Initialize Git repository.
+shinit_git() {
+	printf ' - Git repository\n'
+	git init
+
+	if [ -n "${SHINIT_REPO_PATH}" ]; then
+	  # FIXME: check if $SHINIT_REPO_PATH is URL
+		printf ' - link to remote repository: origin at %s\n' "https://${SHINIT_REPO_PATH}.git"
+		git remote add origin "https://${SHINIT_REPO_PATH}.git"
+	fi
+
+	printf ' - .gitignore\n'
+	cat >.gitignore <<-EOF
+		# Whitelist for sh
+
+		# Ignore everything
+		*
+
+		# But not these files...
+		!/.gitignore
+
+		!${SHINIT_NAME}
+		!*.sh
+
+		!README.md
+		!LICENSE
+
+		!Makefile
+
+		# ...even if they are in subdirectories
+		!*/
+	EOF
+	
+}
+
+# Prepare shell script.
+shinit_sh() {
+	printf ' - %s\n' "${SHINIT_NAME}"
+	cat >"${SHINIT_NAME}" <<-'EOF'
+		#!/bin/sh
+
+		printf 'ERROR: not implemented' >&2
+		exit 64  # EX_USAGE
+	EOF
+
+	printf ' - add execution permission to %s\n' "${SHINIT_NAME}"
+	chmod +x "${SHINIT_NAME}"
+}
+
+# Prepare documentation files.
+shinit_markdown() {
+	# shellcheck disable=SC2018,SC2019
+	LICENSE_SRC='https://raw.githubusercontent.com/github/choosealicense.com/gh-pages/_licenses/'$(echo "${SHINIT_LICENSE}" | tr 'A-Z' 'a-z')'.txt'
+
+	printf ' - LICENSE (from %s)\n' "${LICENSE_SRC}"
+	curl -fL "${LICENSE_SRC}" | sed -e '/---/,/---/d' -e '/./,$!d' -e "s/\[year\]/$(date +%Y)/g" -e "s/\[fullname\]/$SHINIT_AUTHOR/g" >LICENSE
+
+	printf ' - README.md\n'
+	cat >README.md <<-EOF
+		# ${SHINIT_NAME}
+
+		## License
+
+		[${SHINIT_LICENSE}](./LICENSE)
+	EOF
+}
+
+# MAIN ROUTINE
+{
+	case $# in
+		0)  # default
+			;;
+		1)
+		    case $1 in
+		        -h|--help)
+		          cat >&2 <<-'EOF'
+								shinit - initialize Bourne shell project inside current (or given) directory
+
+								Usage:
+								  shinit [options] [parent_directory]
+
+								Options:
+								  -h, --help                      Show this help and exit.
+								  -v, --version                   Show version number and exit.
+							EOF
+		          exit 0
+		        	;;
+
+		        -v|--version)
+		          printf 'shinit %s' "${SHINIT_VERSION}" >&2
+		          exit 0
+		          ;;
+
+		        *)
+              if [ -d "$1" ]; then
+								SHINIT_DIR="$1"
+							else
+								printf 'ERROR: invalid usage. Try: %s -h\n' "$0" >&2
+								exit 64  # EX_USAGE
+							fi
+		          ;;
+			esac
+			;;
+
+		*)
+			printf 'ERROR: invalid usage. Try: %s -h\n' "$0" >&2
+			exit 64  # EX_USAGE
+			;;
+	esac
+
+	shinit_prompt
+	shinit_generate
+
+	exit 0
+}
