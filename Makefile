@@ -11,7 +11,7 @@ all: test check
 
 clean:
 	@echo '# Delete test runner: rm $(TEST)' >&2
-	@rm $(TEST)
+	@if [ -f "$(TEST)" ]; then rm $(TEST); fi
 
 debug:
 	@printf '# OS info: '
@@ -38,6 +38,5 @@ $(LINT):
 
 $(TEST):
 	@echo '# Prepare $@:' >&2
-	curl -fLO $(TEST_SRC)
+	@if [ $$(uname -s) == "OpenBSD" ]; then ftp -V $(TEST_SRC); else curl -fLO $(TEST_SRC); fi
 	chmod +x $@
-
