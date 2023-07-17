@@ -38,5 +38,5 @@ $(LINT):
 
 $(TEST):
 	@echo '# Prepare $@:' >&2
-	@if [ $$(uname -s) == "OpenBSD" ]; then ftp -V $(TEST_SRC); else curl -fLO $(TEST_SRC); fi
+	@if [ "$$(uname -s)" = "OpenBSD" ]; then ftp -V $(TEST_SRC); else curl -fLO $(TEST_SRC); fi
 	chmod +x $@
