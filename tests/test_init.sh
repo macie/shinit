@@ -14,7 +14,7 @@ afterAll() {
 #
 
 test_default() {
-    ./shinit "${TEST_ROOT_DIR}" 2>/dev/null >&2
+    echo | ./shinit "${TEST_ROOT_DIR}" 2>/dev/null >&2
     test $? -eq 0
 
     TEST_PROJ_DIR=$(find "${TEST_ROOT_DIR}"/* -type d -prune -print | head -1)
