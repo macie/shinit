@@ -8,7 +8,7 @@ jobs:
     - uses: actions/checkout@v3
 
     - name: Unit tests with unittest.sh
-      run: TERM=vt100 make test
+      run: make test
 
     - name: Static analysis with shellcheck
       run: make check
@@ -19,12 +19,8 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Unit tests with unittest.sh
+    - name: Unit tests & static analysis
       uses: vmactions/openbsd-vm@v0
       with:
-        run: TERM=vt100 make test
-
-    - name: Static analysis with shellcheck
-      uses: vmactions/openbsd-vm@v0
-      with:
-        run: make check
+        prepare: pkg_add git shellcheck
+        run: make
