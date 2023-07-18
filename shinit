@@ -3,10 +3,15 @@
 # shinit - initialize Bourne shell project.
 # MIT license <https://github.com/macie/shinit>
 
-SHINIT_VERSION="2023.07.17"
+SHINIT_VERSION="2023.07.18"
 
 # DEFAULTS
-SHINIT_AUTHOR_DEFAULT="$(git config user.name)"
+SHINIT_GIT_BIN=$(git -v)
+if [ -n "${SHINIT_GIT_BIN}" ]; then
+	SHINIT_AUTHOR_DEFAULT="$(git config user.name)"
+else
+	SHINIT_AUTHOR_DEFAULT="$(id -u -n)"
+fi
 SHINIT_LICENSE_DEFAULT="MIT"
 SHINIT_NAME_DEFAULT="sh-$(hexdump -v -n4 -e'"%02x"' /dev/random)"
 SHINIT_DIR="."
@@ -15,12 +20,21 @@ SHINIT_DIR="."
 shinit_prompt() {
 	printf 'Choose:\n'
 
-	printf ' - repo root path [%s]: ' "${SHINIT_NAME_DEFAULT}"
-	read -r SHINIT_REPO_PATH
-	if [ -z "${SHINIT_REPO_PATH}" ]; then
-		SHINIT_NAME="${SHINIT_NAME_DEFAULT}"
+	if [ -n "${SHINIT_GIT_BIN}" ]; then
+		printf ' - repo root path [%s]: ' "${SHINIT_NAME_DEFAULT}"
+		read -r SHINIT_REPO_PATH
+		if [ -z "${SHINIT_REPO_PATH}" ]; then
+			SHINIT_NAME="${SHINIT_NAME_DEFAULT}"
+		else
+			SHINIT_NAME="${SHINIT_REPO_PATH##*/}"
+		fi
 	else
-		SHINIT_NAME="${SHINIT_REPO_PATH##*/}"
+		# Git is not installed
+		printf ' - project name [%s]: ' "${SHINIT_NAME_DEFAULT}"
+		read -r SHINIT_NAME
+		if [ -z "${SHINIT_NAME}" ]; then
+			SHINIT_NAME="${SHINIT_NAME_DEFAULT}"
+		fi
 	fi
 
 	printf ' - author [%s]: ' "${SHINIT_AUTHOR_DEFAULT}"
@@ -51,6 +65,11 @@ shinit_generate() {
 
 # Initialize Git repository.
 shinit_git() {
+	if [ -z "${SHINIT_GIT_BIN}" ]; then
+		printf ' - Git configuration skipped (cannot find Git binary)\n'
+		return 0
+	fi
+
 	printf ' - Git repository\n'
 	git init
 
