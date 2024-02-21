@@ -21,12 +21,12 @@ shinit_prompt() {
 	printf 'Choose:\n'
 
 	if [ -n "${SHINIT_GIT_BIN}" ]; then
-		printf ' - repo root path [%s]: ' "${SHINIT_NAME_DEFAULT}"
+		printf ' - repo root path (directory name or URL) [%s]: ' "${SHINIT_NAME_DEFAULT}"
 		read -r SHINIT_REPO_PATH
 		if [ -z "${SHINIT_REPO_PATH}" ]; then
 			SHINIT_NAME="${SHINIT_NAME_DEFAULT}"
 		else
-			SHINIT_NAME="${SHINIT_REPO_PATH##*/}"
+			SHINIT_NAME=$(echo "${SHINIT_REPO_PATH}" | xargs -E "" -I {} basename {} .git)
 		fi
 	else
 		# Git is not installed
@@ -73,10 +73,9 @@ shinit_git() {
 	printf ' - Git repository\n'
 	git init
 
-	if [ -n "${SHINIT_REPO_PATH}" ]; then
-		# FIXME: check if $SHINIT_REPO_PATH is URL
-		printf ' - link to remote repository: origin at %s\n' "https://${SHINIT_REPO_PATH}.git"
-		git remote add origin "https://${SHINIT_REPO_PATH}.git"
+	if [ -n "${SHINIT_REPO_PATH}" ] && echo "${SHINIT_REPO_PATH}" | grep -q -E '^https:\/\/|[^@]+@[^:]+:'; then
+		printf ' - link to remote repository: origin at %s\n' "${SHINIT_REPO_PATH}"
+		git remote add origin "${SHINIT_REPO_PATH}"
 	fi
 
 	printf ' - .gitignore\n'

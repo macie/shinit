@@ -29,3 +29,10 @@ test_issue1() {
     # shellcheck disable=SC2012
     test "$(ls -a "$TEST_PROJ_DIR" | tr '\n' ' ')" = ". .. LICENSE README.md $TEST_PROJ_SCRIPT " 
 }
+
+test_issue2() {
+    echo 'in://valid.url/is/here/issue2.git' | ./shinit "$TEST_ROOT_DIR" 2>/dev/null >&2
+    test $? -eq 0
+
+    test "$(cd "${TEST_ROOT_DIR}/issue2" && git remote -v)" = ''
+}
