@@ -1,11 +1,25 @@
 .POSIX:
 .SUFFIXES:
 
+
+#
+# PUBLIC MACROS
+#
+
 LINT=shellcheck
 TEST=./unittest
+
+
+#
+# INTERNAL MACROS
+#
+
 TEST_SRC=https://raw.githubusercontent.com/macie/unittest.sh/master/unittest
 
-# MAIN TARGETS
+
+#
+# DEVELOPMENT TASKS
+#
 
 all: test check
 
@@ -30,7 +44,10 @@ test: $(TEST)
 	@echo '# Unit tests: $(TEST)' >&2
 	@$(TEST)
 
-# HELPERS
+
+#
+# DEPENDENCIES
+#
 
 $(LINT):
 	@printf '# $@ installation path: ' >&2
