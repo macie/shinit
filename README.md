@@ -34,6 +34,16 @@ wget https://raw.githubusercontent.com/macie/shinit/dev/shinit
 chmod +x shinit
 ```
 
+## Development
+
+Use `make` (GNU or BSD):
+
+- `make` - run checks
+- `make test` - run test
+- `make check` - perform static code analysis
+- `make clean` - remove development artifacts
+- `make info` - print system info (useful for debugging).
+
 ## License
 
 [MIT](./LICENSE) ([explanation in simple words](https://tldrlegal.com/license/mit-license))

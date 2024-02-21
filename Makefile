@@ -13,14 +13,14 @@ clean:
 	@echo '# Delete test runner: rm $(TEST)' >&2
 	@if [ -f "$(TEST)" ]; then rm $(TEST); fi
 
-debug:
+info:
 	@printf '# OS info: '
 	@uname -rsv;
 	@echo '# Development dependencies:'
 	@echo; $(LINT) -V || true
 	@echo; $(TEST) -v || true
 	@echo '# Environment variables:'
-	env || true
+	@env || true
 
 check: $(LINT)
 	@printf '# Static analysis: $(LINT) shinit' >&2
