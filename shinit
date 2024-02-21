@@ -3,7 +3,7 @@
 # shinit - initialize Bourne shell project.
 # MIT license <https://github.com/macie/shinit>
 
-SHINIT_VERSION="2023.07.18"
+SHINIT_VERSION="2024.02-prerelease"
 
 # DEFAULTS
 SHINIT_GIT_BIN=$(git -v)
@@ -74,7 +74,7 @@ shinit_git() {
 	git init
 
 	if [ -n "${SHINIT_REPO_PATH}" ]; then
-	  # FIXME: check if $SHINIT_REPO_PATH is URL
+		# FIXME: check if $SHINIT_REPO_PATH is URL
 		printf ' - link to remote repository: origin at %s\n' "https://${SHINIT_REPO_PATH}.git"
 		git remote add origin "https://${SHINIT_REPO_PATH}.git"
 	fi
@@ -141,34 +141,35 @@ shinit_markdown() {
 		0)  # default
 			;;
 		1)
-		    case $1 in
-		        -h|--help)
-		          cat >&2 <<-'EOF'
-								shinit - initialize Bourne shell project inside current (or given) directory
+			case $1 in
+				-h)
+					cat >&2 <<-'EOF'
+						shinit - initialize Bourne shell project inside current (or given) directory
 
-								Usage:
-								  shinit [options] [parent_directory]
+						Usage:
+						   shinit [PARENT_DIR]
+						   shinit [-h] [-v]
 
-								Options:
-								  -h, --help                      Show this help and exit.
-								  -v, --version                   Show version number and exit.
-							EOF
-		          exit 0
-		        	;;
+						Options:
+						   -h              Show this help and exit.
+						   -v              Show version number and exit.
+					EOF
+				exit 0
+				;;
 
-		        -v|--version)
-		          printf 'shinit %s' "${SHINIT_VERSION}" >&2
-		          exit 0
-		          ;;
+			-v)
+				printf 'shinit %s' "${SHINIT_VERSION}" >&2
+				exit 0
+				;;
 
-		        *)
-              if [ -d "$1" ]; then
-								SHINIT_DIR="$1"
-							else
-								printf 'ERROR: invalid usage. Try: %s -h\n' "$0" >&2
-								exit 64  # EX_USAGE
-							fi
-		          ;;
+			*)
+				if [ -d "$1" ]; then
+					SHINIT_DIR="$1"
+				else
+					printf 'ERROR: invalid usage. Try: %s -h\n' "$0" >&2
+					exit 64  # EX_USAGE
+				fi
+				;;
 			esac
 			;;
 
