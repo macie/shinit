@@ -4,7 +4,7 @@ beforeAll() {
     TEST_ROOT_DIR=$(mktemp -d -t 'shinit_testXXXXXX')
     MOCK_DIR=$(mktemp -d -t 'shinit_mockXXXXXX')
 
-    USED_CMDS='cat cd chmod curl date hexdump id ls mkdir printf sed tr'
+    USED_CMDS='cat cd chmod curl date grep hexdump id ls mkdir printf sed tr'
     for MOCKED_CMD in $USED_CMDS; do
         echo '#!/bin/sh' >"${MOCK_DIR}/${MOCKED_CMD}"
         if type "$MOCKED_CMD" | grep -q 'builtin'; then

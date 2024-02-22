@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 # <https://github.com/macie/shinit>
 
-SHINIT_VERSION="2024.02-prerelease"
+SHINIT_VERSION="24.02"
 
 # DEFAULTS
 SHINIT_GIT_BIN=$(git -v)
@@ -44,11 +44,13 @@ shinit_prompt() {
 		SHINIT_AUTHOR="${SHINIT_AUTHOR_DEFAULT}"
 	fi
 
-	printf ' - license [%s]: ' "${SHINIT_LICENSE_DEFAULT}"
-	read -r SHINIT_LICENSE
-	if [ -z "${SHINIT_LICENSE}" ]; then
-		SHINIT_LICENSE="${SHINIT_LICENSE_DEFAULT}"
-	fi
+	while ! echo "${SHINIT_LICENSE}" | grep -q -E '^MIT|GPL-3.0-only|MIT-0'; do
+		printf ' - license (MIT, GPL-3.0-only, MIT-0) [%s]: ' "${SHINIT_LICENSE_DEFAULT}"
+		read -r SHINIT_LICENSE
+		if [ -z "${SHINIT_LICENSE}" ]; then
+			SHINIT_LICENSE="${SHINIT_LICENSE_DEFAULT}"
+		fi
+	done
 }
 
 # Generate project files.
@@ -222,7 +224,7 @@ EOF
 # Prepare documentation files.
 shinit_markdown() {
 	# shellcheck disable=SC2018,SC2019
-	LICENSE_SRC='https://raw.githubusercontent.com/github/choosealicense.com/gh-pages/_licenses/'$(echo "${SHINIT_LICENSE}" | tr 'A-Z' 'a-z')'.txt'
+	LICENSE_SRC='https://raw.githubusercontent.com/github/choosealicense.com/gh-pages/_licenses/'$(echo "${SHINIT_LICENSE}" | tr 'A-Z' 'a-z' | sed 's/-only//g')'.txt'
 
 	printf ' - LICENSE (from %s)\n' "${LICENSE_SRC}"
 	curl -fL "${LICENSE_SRC}" | sed -e '/---/,/---/d' -e '/./,$!d' -e "s/\[year\]/$(date +%Y)/g" -e "s/\[fullname\]/$SHINIT_AUTHOR/g" >LICENSE
