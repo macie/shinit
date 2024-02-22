@@ -1,6 +1,7 @@
 # shinit
 
 [![Quality check status](https://github.com/macie/shinit/actions/workflows/check.yml/badge.svg)](https://github.com/macie/shinit/actions/workflows/check.yml)
+[![License](https://img.shields.io/github/license/macie/smallstache.sh)](https://tldrlegal.com/license/mit-license)
 
 **shinit** interactively creates empty Bourne shell script in new directory with:
 
