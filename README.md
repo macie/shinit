@@ -1,6 +1,6 @@
 # shinit
 
-[![CI](https://github.com/macie/shinit/actions/workflows/check.yml/badge.svg)](https://github.com/macie/shinit/actions/workflows/check.yml)
+[![Quality check status](https://github.com/macie/shinit/actions/workflows/check.yml/badge.svg)](https://github.com/macie/shinit/actions/workflows/check.yml)
 
 **shinit** interactively creates empty Bourne shell script in new directory with:
 
