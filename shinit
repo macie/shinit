@@ -1,7 +1,8 @@
 #!/bin/sh
-#
 # shinit - initialize Bourne shell project.
-# MIT license <https://github.com/macie/shinit>
+# Copyright 2023 Maciej Żok
+# SPDX-License-Identifier: MIT
+# <https://github.com/macie/shinit>
 
 SHINIT_VERSION="2024.02-prerelease"
 
@@ -105,8 +106,12 @@ shinit_git() {
 # Prepare shell script.
 shinit_sh() {
 	printf ' - %s\n' "${SHINIT_NAME}"
-	cat >"${SHINIT_NAME}" <<-'EOF'
+	cat >"${SHINIT_NAME}" <<-EOF
 		#!/bin/sh
+		# ${SHINIT_NAME}
+		# Copyright $(date +%Y) ${SHINIT_AUTHOR}
+		# SPDX-License-Identifier: ${SHINIT_LICENSE}
+		# <${SHINIT_REPO_PATH}>
 
 		printf 'ERROR: not implemented' >&2
 		exit 64  # EX_USAGE
