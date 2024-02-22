@@ -18,22 +18,33 @@ shinit ~/dev
 
 ## Installation
 
-> For best user experience _shinit_ should be installed inside directory from
-> `PATH` environmental variable. 
+>The instruction is for Linux. On different OSes, you may need to use different
+>commands
 
-Using `curl`:
+1. Download [latest stable release from GitHub](https://github.com/macie/shinit/releases/latest):
 
-```sh
-curl -fLO https://raw.githubusercontent.com/macie/shinit/dev/shinit
-chmod +x shinit
-```
+    ```bash
+    wget https://github.com/macie/shinit/releases/latest/download/shinit
+    ```
 
-or with `wget`:
+2. (OPTIONAL) Verify downloading:
 
-```sh
-wget https://raw.githubusercontent.com/macie/shinit/dev/shinit
-chmod +x shinit
-```
+    ```bash
+    wget https://github.com/macie/shinit/releases/latest/download/shinit.sha256sum
+    sha256sum -c shinit.sha256sum
+    ```
+
+3. Set execute permission:
+
+    ```bash
+    chmod +x shinit
+    ```
+
+4. Move to directory from `PATH` environment variable:
+
+    ```bash
+    mv shinit /usr/local/bin/
+    ```
 
 ### Development version
 
@@ -54,6 +65,11 @@ Use `make` (GNU or BSD):
 - `make dist` - prepare distribution
 - `make clean` - remove development artifacts
 - `make info` - print system info (useful for debugging).
+
+
+### Versioning
+
+`shinit` is versioned according to the scheme `YY.0M.MICRO` ([calendar versioning](https://calver.org/)). Releases are tagged in Git.
 
 ## License
 
