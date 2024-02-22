@@ -24,7 +24,7 @@ TEST    = ./unittest
 # INTERNAL MACROS
 #
 
-TEST_SRC=https://raw.githubusercontent.com/macie/unittest.sh/master/unittest
+TEST_SRC=https://github.com/macie/unittest.sh/releases/latest/download/unittest
 
 
 #
@@ -84,5 +84,13 @@ $(LINT):
 
 $(TEST):
 	@echo '# Prepare $@:' >&2
-	@if [ "$$(uname -s)" = "OpenBSD" ]; then ftp -V $(TEST_SRC); else curl -fLO $(TEST_SRC); fi
+	@if [ "$$(uname -s)" = "OpenBSD" ]; then \
+		ftp -V $(TEST_SRC); \
+		ftp -V $(TEST_SRC).sha256sum; \
+		sha256 -c $@.sha256sum; \
+	else \
+		curl -fLO $(TEST_SRC); \
+		curl -fLO $(TEST_SRC).sha256sum; \
+		sha256sum -c $@.sha256sum; \
+	fi
 	chmod +x $@
