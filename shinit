@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: MIT
 # <https://github.com/macie/shinit>
 
-SHINIT_VERSION="2024.02"
+SHINIT_VERSION="24.02"
 
 # DEFAULTS
 SHINIT_GIT_BIN=$(git -v)
