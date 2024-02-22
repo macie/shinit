@@ -13,7 +13,7 @@
 !LICENSE
 
 !Makefile
-!check.yml
+!.github/**/*.yml
 
 # ...even if they are in subdirectories
 !*/
