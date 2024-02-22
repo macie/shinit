@@ -27,7 +27,7 @@ test_issue1() {
     TEST_PROJ_DIR=$(find "$TEST_ROOT_DIR"/* -type d -prune -print | head -1)
     TEST_PROJ_SCRIPT=$(basename "$TEST_PROJ_DIR")
     # shellcheck disable=SC2012
-    test "$(ls -a "$TEST_PROJ_DIR" | tr '\n' ' ')" = ". .. LICENSE README.md $TEST_PROJ_SCRIPT " 
+    test "$(ls -a "$TEST_PROJ_DIR" | tr '\n' ' ')" = ". .. LICENSE Makefile README.md $TEST_PROJ_SCRIPT " 
 }
 
 test_issue2() {

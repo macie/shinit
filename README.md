@@ -2,9 +2,10 @@
 
 [![CI](https://github.com/macie/shinit/actions/workflows/check.yml/badge.svg)](https://github.com/macie/shinit/actions/workflows/check.yml)
 
-**shinit** create empty Bourne shell script in new directory with:
+**shinit** interactively creates empty Bourne shell script in new directory with:
 
-- README.md and LICENSE files
+- `README.md` and `LICENSE` files
+- `Makefile` with configured development targets
 - configured Git repository.
 
 ## Usage
