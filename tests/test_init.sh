@@ -23,6 +23,20 @@ test_default() {
     test "$(ls -a "${TEST_PROJ_DIR}" | tr '\n' ' ')" = ". .. .git .gitignore LICENSE Makefile README.md ${TEST_PROJ_SCRIPT} " 
 }
 
+test_name() {
+    echo 'cool_script' | ./shinit "${TEST_ROOT_DIR}" 2>/dev/null >&2
+    test $? -eq 0
+
+    test -f "${TEST_ROOT_DIR}/cool_script/cool_script"
+}
+
+test_license_invalid() {
+    printf 'some_proj\ninvalid\nMIT-0\n' | ./shinit "${TEST_ROOT_DIR}" 2>/dev/null >&2
+    test $? -eq 0
+
+    grep -q 'MIT No Attribution' "${TEST_ROOT_DIR}/some_proj/LICENSE"
+}
+
 test_repo_path_local() {
     echo '/valid.url/is/here/local_test.git' | ./shinit "${TEST_ROOT_DIR}" 2>/dev/null >&2
     test $? -eq 0

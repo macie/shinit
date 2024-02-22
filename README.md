@@ -3,11 +3,28 @@
 [![Quality check status](https://github.com/macie/shinit/actions/workflows/check.yml/badge.svg)](https://github.com/macie/shinit/actions/workflows/check.yml)
 [![License](https://img.shields.io/github/license/macie/smallstache.sh)](https://tldrlegal.com/license/mit-license)
 
-**shinit** interactively creates empty Bourne shell script in new directory with:
+**shinit** interactively initializes empty project for a Bourne shell script.
 
-- `README.md` and `LICENSE` files
+`shinit` asks user for:
+- project name (by default: `sh-<hash>`),
+- author name (by default: user from git config or current OS user),
+- license ID from corporate-safe selection:
+    - [MIT](https://choosealicense.com/licenses/mit/) (default) - to maximize
+        chance of mass adoption by preserving authorship information only,
+    - [GPL-3.0-only](https://choosealicense.com/licenses/gpl-3.0/) - to secure
+        access to the source code at the cost of adoption across for-profit
+        organizations,
+    - [MIT-0](https://choosealicense.com/licenses/mit-0/) - to release the
+        source code into the public domain, even in jurisdictions without
+        the public domain.
+
+Based on answers, `shinit` creates a new directory with:
+
+- initialized Git repository and `.gitignore` allow list
+- shell script with executable permissions
 - `Makefile` with configured development targets
-- configured Git repository.
+- `LICENSE` file
+- `README.md` with basic info.
 
 ## Usage
 
