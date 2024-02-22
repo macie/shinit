@@ -50,6 +50,7 @@ Use `make` (GNU or BSD):
 - `make test` - run test
 - `make check` - perform static code analysis
 - `make install` - install in `/usr/local/bin`
+- `make dist` - prepare distribution
 - `make clean` - remove development artifacts
 - `make info` - print system info (useful for debugging).
 

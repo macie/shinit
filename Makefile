@@ -14,9 +14,10 @@
 # PUBLIC MACROS
 #
 
-CLI  = shinit
-LINT = shellcheck
-TEST = ./unittest
+CLI     = shinit
+DESTDIR = ./dist
+LINT    = shellcheck
+TEST    = ./unittest
 
 
 #
@@ -35,8 +36,10 @@ all: test check
 
 .PHONY: clean
 clean:
-	@echo '# Delete test runner: rm $(TEST)' >&2
-	@if [ -f "$(TEST)" ]; then rm $(TEST); fi
+	@echo '# Delete test runner:' >&2
+	rm -f $(TEST)
+	@echo '# Delete bulid directory' >&2
+	rm -rf $(DESTDIR)
 
 .PHONY: info
 info:
@@ -62,6 +65,13 @@ test: $(TEST)
 install:
 	@echo '# Install in /usr/local/bin' >&2
 	@mkdir -p /usr/local/bin; cp $(CLI) /usr/local/bin/
+
+.PHONY: dist
+dist:
+	@echo '# Copy CLI executable to $(DESTDIR)/$(CLI)' >&2
+	@mkdir -p $(DESTDIR); cp $(CLI) $(DESTDIR)/
+	@echo '# Add executable checksum to: $(DESTDIR)/$(CLI).sha256sum' >&2
+	@cd $(DESTDIR); sha256sum $(CLI) >> $(CLI).sha256sum
 
 
 #
