@@ -14,8 +14,9 @@
 # PUBLIC MACROS
 #
 
-LINT=shellcheck
-TEST=./unittest
+CLI  = shinit
+LINT = shellcheck
+TEST = ./unittest
 
 
 #
@@ -49,13 +50,18 @@ info:
 
 .PHONY: check
 check: $(LINT)
-	@printf '# Static analysis: $(LINT) shinit' >&2
-	@$(LINT) shinit ./tests/*.sh
+	@printf '# Static analysis: $(LINT) $(CLI) ./tests/*.sh' >&2
+	@$(LINT) $(CLI) ./tests/*.sh
 
 .PHONY: test
 test: $(TEST)
 	@echo '# Unit tests: $(TEST)' >&2
 	@$(TEST)
+
+.PHONY: install
+install:
+	@echo '# Install in /usr/local/bin' >&2
+	@mkdir -p /usr/local/bin; cp $(CLI) /usr/local/bin/
 
 
 #

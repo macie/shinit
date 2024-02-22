@@ -34,6 +34,14 @@ wget https://raw.githubusercontent.com/macie/shinit/dev/shinit
 chmod +x shinit
 ```
 
+### Development version
+
+```bash
+git clone git@github.com:macie/shinit.git
+cd shinit
+make install
+```
+
 ## Development
 
 Use `make` (GNU or BSD):
@@ -41,6 +49,7 @@ Use `make` (GNU or BSD):
 - `make` - run checks
 - `make test` - run test
 - `make check` - perform static code analysis
+- `make install` - install in `/usr/local/bin`
 - `make clean` - remove development artifacts
 - `make info` - print system info (useful for debugging).
 
