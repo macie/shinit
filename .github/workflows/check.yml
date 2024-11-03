@@ -59,7 +59,7 @@ jobs:
         uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Run tests inside VM
-        uses: vmactions/openbsd-vm@9d5b45dcdbc99e6b2d15a6dc7e8c2ae06736bec4 # v1.0.7
+        uses: vmactions/openbsd-vm@0cfe06e734a0ea3a546fca7ebf200b984b94d58a # v1.1.4
         with:
           prepare: pkg_add git shellcheck
           run: |
