@@ -1,11 +1,6 @@
-# This Makefile intended to be POSIX-compliant (2018 edition with .PHONY target).
+# This Makefile intended to be POSIX-compliant (2024 edition).
 #
-# .PHONY targets are used by task definintions.
-#
-# More info:
-#  - docs: <https://pubs.opengroup.org/onlinepubs/9699919799/utilities/make.html>
-#  - .PHONY: <https://www.austingroupbugs.net/view.php?id=523>
-#
+# More info: <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/make.html>
 .POSIX:
 .SUFFIXES:
 
@@ -86,11 +81,11 @@ $(TEST):
 	@echo '# Prepare $@:' >&2
 	@if [ "$$(uname -s)" = "OpenBSD" ]; then \
 		ftp -V $(TEST_SRC); \
-		ftp -V $(TEST_SRC).sha256sum; \
-		sha256 -c $@.sha256sum; \
+		ftp -V $(TEST_SRC).sha256sum.sig; \
+		tail -n 1 $@.sha256sum.sig | sha256 -c;  \
 	else \
 		curl -fLO $(TEST_SRC); \
-		curl -fLO $(TEST_SRC).sha256sum; \
-		sha256sum -c $@.sha256sum; \
+		curl -fLO $(TEST_SRC).sha256sum.sig; \
+		tail -n 1 $@.sha256sum.sig | sha256sum -c; \
 	fi
 	chmod +x $@
