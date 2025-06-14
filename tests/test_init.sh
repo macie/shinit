@@ -2,11 +2,11 @@
 # SPDX-FileCopyrightText: 2023 Maciej Żok <https://github.com/macie/shinit>
 # SPDX-License-Identifier: MIT
 
-beforeAll() {
+before_all() {
     TEST_ROOT_DIR=$(mktemp -d -t 'shinit_testXXXXXX')
 }
 
-afterAll() {
+after_all() {
     rm -R "${TEST_ROOT_DIR:-/tmp/shinit}"/* 2>/dev/null
     rmdir "${TEST_ROOT_DIR:-/tmp/shinit}"
 }
