@@ -1,4 +1,6 @@
 #!/bin/sh
+# SPDX-FileCopyrightText: 2023 Maciej Żok <https://github.com/macie/shinit>
+# SPDX-License-Identifier: MIT
 
 beforeAll() {
     TEST_ROOT_DIR=$(mktemp -d -t 'shinit_testXXXXXX')

@@ -1,8 +1,9 @@
 #!/bin/sh
+#
 # shinit - initialize Bourne shell project.
-# Copyright 2023 Maciej Żok
+#
+# SPDX-FileCopyrightText: 2023 Maciej Żok <https://github.com/macie/shinit>
 # SPDX-License-Identifier: MIT
-# <https://github.com/macie/shinit>
 
 SHINIT_VERSION="24.02"
 
@@ -103,7 +104,6 @@ shinit_git() {
 		# ...even if they are in subdirectories
 		!*/
 	EOF
-	
 }
 
 # Prepare shell script.
@@ -140,7 +140,7 @@ shinit_makefile() {
 		DESTDIR = ./dist
 		LINT    = shellcheck
 		TEST    = ./unittest
-		
+
 
 		#
 		# INTERNAL MACROS

@@ -1,6 +1,9 @@
 # This Makefile intended to be POSIX-compliant (2024 edition).
 #
 # More info: <https://pubs.opengroup.org/onlinepubs/9799919799/utilities/make.html>
+#
+# SPDX-FileCopyrightText: 2023 Maciej Żok <https://github.com/macie/shinit>
+# SPDX-License-Identifier: MIT
 .POSIX:
 .SUFFIXES:
 
