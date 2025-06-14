@@ -3,4 +3,5 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: monthly
+      interval: "cron"
+      cronjob: "4 4 2 */4 *"
